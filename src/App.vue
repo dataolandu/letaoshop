@@ -7,15 +7,11 @@
 
 <script>
 // import storage from '../src/storage/index'
-import jsonp from 'jsonp'
+// import jsonp from 'jsonp'
+
 export default {
     mounted () {
-      // var res = storage.getItem('user').username;
-      // storage.setItem('a',1,);
-      // storage.clear('a')
-      // console.log(res);
-      let url = '/api/u/loading';
-      jsonp(url,(err,res)=>{
+      this.$http.get('/user/login').then(res => {
         console.log(res);
       })
     }
