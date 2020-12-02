@@ -11,9 +11,17 @@
 
 export default {
     mounted () {
-      this.$http.get('/user/login').then(res => {
-        console.log(res);
-      })
+      // this.$http.get('/login/status',{
+      //   params:{
+      //     // phone: 17306696629,
+      //     // password: 'CJT123456',
+      //     // captcha: 6136,
+      //     // nickname: 'dataolandu'
+      //     // uid: 3971959440
+      //   }
+      // }).then(res => {
+      //   console.log(res);
+      // })
     }
 }
 </script>
