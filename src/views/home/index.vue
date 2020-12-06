@@ -10,7 +10,10 @@
                 <div class="menu-child">
                   <ul v-for="(item, i) in menuList" :key="i">
                     <li v-for="(phone, j) in item" :key="j">
-                      <a :href="phone ? '/#/product/' + phone.id : ''" target="_blank">
+                      <a
+                        :href="phone ? '/#/product/' + phone.id : ''"
+                        target="_blank"
+                      >
                         <img
                           :src="phone ? phone.img : '/imgs/nav-img/nav-2.png'"
                           alt=""
@@ -57,9 +60,48 @@
             <div class="swiper-button-next" slot="button-next"></div>
           </swiper>
         </div>
-        <div class="sort-box"></div>
-        <div class="banner"></div>
-        <div class="product-box"></div>
+        <div class="advert-box">
+          <ul>
+            <li v-for="(item, index) in advertList" :key="index">
+              <a :href="'/#/product/' + item.id" target="_blank">
+                <img :src="item.img" alt="" />
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="banner">
+          <a href="/#/product/30" target="_blank">
+            <img src="/imgs/banner-1.png" alt="" />
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="product-box">
+      <div class="container">
+        <h1>手机</h1>
+        <div class="brick-box">
+          <div class="left-box">
+            <a href="/#/product/35" target="_blank">
+              <img src="/imgs/mix-alpha.jpg" alt="" />
+            </a>
+          </div>
+          <div class="right-box">
+            <ul>
+              <li v-for="(item, index) in brickList" :key="index">
+                <span class="brick-new">新品</span>
+                <div class="brick-img">
+                  <img :src="item.mainImage" alt="" />
+                </div>
+                <p class="brick-name">{{ item.name }}</p>
+                <p class="brick-title">{{ item.subtitle }}</p>
+                <a :href="'/#/product/' + item.id">
+                  <span class="brick-price">{{ item.price }}元</span>
+                  <div class="brick-bg"></div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
     <service-bar></service-bar>
@@ -150,15 +192,54 @@ export default {
         [0, 0, 0, 0],
         [0, 0, 0, 0],
       ],
+      advertList: [
+        {
+          id: 33,
+          img: "/imgs/ads/ads-1.png",
+        },
+        {
+          id: 48,
+          img: "/imgs/ads/ads-2.jpg",
+        },
+        {
+          id: 45,
+          img: "/imgs/ads/ads-3.png",
+        },
+        {
+          id: 47,
+          img: "/imgs/ads/ads-4.jpg",
+        },
+      ],
+      brickList: [],
     };
+  },
+  mounted() {
+    this.getBrickdata();
+  },
+  methods: {
+    getBrickdata() {
+      this.$http
+        .get("/products", {
+          params: {
+            categoryId: 100012,
+            pageNum: 1,
+            pageSize: 8,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          this.brickList = res.list;
+        });
+    },
   },
 };
 </script>
 
 <style lang="scss">
 @import "/src/assets/scss/config.scss";
+@import "/src/assets/scss/mixin.scss";
+@import "/src/assets/scss/base.scss";
 .content {
-  background-color: #f5f5f5;
   .swiper-box {
     height: 460px;
     .nav-menu {
@@ -166,7 +247,7 @@ export default {
       width: 264px;
       height: 460px;
       background-color: rgba(85, 88, 90, 0.48);
-      z-index: 10;
+      z-index: 5;
       padding: 15px 0;
       box-sizing: border-box;
       .menu {
@@ -189,14 +270,13 @@ export default {
             background: url("../../assets/imgs/icon-arrow.png") no-repeat;
             background-size: contain;
           }
-          
         }
         &:hover {
-            background-color: $colorA;
-            .menu-child{
-              display: block;
-            }
+          background-color: $colorA;
+          .menu-child {
+            display: block;
           }
+        }
         .menu-child {
           display: none;
           width: 963px;
@@ -231,6 +311,95 @@ export default {
     img {
       width: 100%;
       height: 100%;
+    }
+  }
+  .advert-box {
+    ul {
+      @include flex();
+      margin: 15px 0;
+      li {
+        a {
+          display: block;
+          width: 296px;
+          height: 167px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+.product-box {
+  background-color: #f5f5f5;
+  padding-bottom: 20px;
+  h1 {
+    padding: 15px 0;
+  }
+  .brick-box {
+    display: flex;
+    .left-box {
+      width: 224px;
+      height: 619px;
+      margin-right: 20px;
+      &:hover {
+        @include hoverfl(0, -2px, 0, 0.2s);
+      }
+    }
+    .right-box {
+      flex: 1;
+      ul {
+        height: 619px;
+        display: flex;
+        justify-content: space-between;
+        align-content: space-between;
+        flex-wrap: wrap;
+        li {
+          width: 234px;
+          height: 296px;
+          margin-bottom: 15px;
+          background-color: #fff;
+          margin-right: 10px;
+          text-align: center;
+          .brick-new {
+            display: inline-block;
+            background-color: #7ecf68;
+            color: #fff;
+            padding: 5px 20px;
+          }
+          .brick-img {
+            img {
+              height: 150px;
+              padding: 15px 0;
+            }
+          }
+          .brick-name {
+            font-size: 14px;
+            font-weight: bold;
+            padding: 5px 0;
+          }
+          .brick-title {
+            color: #999;
+          }
+          a {
+            display: block;
+            color: $colorA;
+            .brick-price {
+              display: inline-block;
+              padding: 5px;
+              font-weight: bold;
+            }
+            .brick-bg {
+              @include bgImg(22px, 22px, "/imgs/icon-cart-hover.png");
+              vertical-align: middle;
+            }
+          }
+          &:hover {
+            @include hoverfl(0, -2px, 0, 0.2s);
+          }
+        }
+      }
     }
   }
 }

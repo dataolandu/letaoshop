@@ -4,10 +4,16 @@
     align-items: $col;
 }
 
-@mixin bgImg($wid:0,$hei:0,$url:"",$bgs:contain,$dp:inline-block) {
+@mixin bgImg($wid:0, $hei:0, $url:"", $bgs:contain, $dp:inline-block) {
     width: $wid;
     height: $hei;
     background: url($url) no-repeat center;
     background-size: $bgs;
     display: $dp;
+}
+
+@mixin hoverfl($x:0,$y:0,$z:0,$time:.5s) {
+    transform: translate3d($x,$y,$z);
+    transition: all $time linear;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, .1);
 }

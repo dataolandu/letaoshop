@@ -155,7 +155,7 @@ export default {
         }
       }).then((res) => {
         this.phoneList = res.list;
-        console.log(this.phoneList);
+        // console.log(this.phoneList);
         // console.log(res.list);
         // console.log(res);
       })
