@@ -1,0 +1,65 @@
+
+.modal {
+    @include position(fixed, 0, 0, 100%, 100%);
+    z-index: 6;
+    transition: all .2s;
+    
+    .mask {
+        @include position(fixed,0,0,100%,100%);
+        background-color: $colorI;
+        opacity: 0.5;
+    }
+    .modal-dialog{
+        @include position(absolute,40%,50%,660px,auto);
+        transform: translate(-50%,-50%);
+        background-color: #fff;
+        .modal-header{
+            height: 61px;
+            background-color: $colorJ;
+            padding: 0 20px;
+            @include flex();
+            span{
+                font-size: 16px;
+            }
+            .icon-close{
+                @include bgImg(14px,14px,'/imgs/icon-close.png')
+            }
+        }
+        .modal-body{
+            padding: 40px 45px;
+        }
+        .modal-footer{
+            height: 80px;
+            background-color: $colorJ;
+            @include flex(space-around);
+            a{
+                display: inline-block;
+                width: 110px;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                color: #fff;
+                margin: 0 10px;
+            }
+            .sendText{
+                background-color: $colorA;
+            }
+            .cancelText{
+                background-color: $colorD;
+            }
+        }
+        
+    }
+    &.slide-enter-active{
+        top: 0;
+    }
+    &.slide-enter{
+        top: -100%;
+    }
+    &.slide-leave-active{
+        top: -100%;
+    }
+    &.slide-leave{
+        top: -100%;
+    }
+}

@@ -64,14 +64,14 @@
           <ul>
             <li v-for="(item, index) in advertList" :key="index">
               <a :href="'/#/product/' + item.id" target="_blank">
-                <img :src="item.img" alt="" />
+                <img v-lazy="item.img" alt="" />
               </a>
             </li>
           </ul>
         </div>
         <div class="banner">
           <a href="/#/product/30" target="_blank">
-            <img src="/imgs/banner-1.png" alt="" />
+            <img v-lazy="'/imgs/banner-1.png'" alt="" />
           </a>
         </div>
       </div>
@@ -82,7 +82,7 @@
         <div class="brick-box">
           <div class="left-box">
             <a href="/#/product/35" target="_blank">
-              <img src="/imgs/mix-alpha.jpg" alt="" />
+              <img v-lazy="'/imgs/mix-alpha.jpg'" alt="" />
             </a>
           </div>
           <div class="right-box">
@@ -90,11 +90,11 @@
               <li v-for="(item, index) in brickList" :key="index">
                 <span class="brick-new">新品</span>
                 <div class="brick-img">
-                  <img :src="item.mainImage" alt="" />
+                  <img v-lazy="item.mainImage" alt="" />
                 </div>
                 <p class="brick-name">{{ item.name }}</p>
                 <p class="brick-title">{{ item.subtitle }}</p>
-                <a :href="'/#/product/' + item.id">
+                <a href="javascript:;" @click="showModal = true">
                   <span class="brick-price">{{ item.price }}元</span>
                   <div class="brick-bg"></div>
                 </a>
@@ -104,12 +104,26 @@
         </div>
       </div>
     </div>
+    <modal 
+    class="summit-cart" 
+    title="提示" 
+    btnType="1" 
+    sendText="去购物车看看" 
+    :showModal="showModal"
+    @cancel="showModal = false"
+    @tocart="gotoCart"
+    >
+      <template v-slot:body-content>
+        <p>添加到购物车成功！</p>
+      </template>
+    </modal>
     <service-bar></service-bar>
   </div>
 </template>
 
 <script>
 import ServiceBar from "@/components/ServiceBar";
+import Modal from "@/components/Modal";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
 export default {
@@ -118,6 +132,7 @@ export default {
     swiper,
     swiperSlide,
     ServiceBar,
+    Modal
   },
   data() {
     return {
@@ -211,6 +226,7 @@ export default {
         },
       ],
       brickList: [],
+      showModal: false,
     };
   },
   mounted() {
@@ -227,10 +243,12 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
           this.brickList = res.list;
         });
     },
+    gotoCart(){
+      this.$router.push('/cart');
+    }
   },
 };
 </script>
@@ -247,7 +265,7 @@ export default {
       width: 264px;
       height: 460px;
       background-color: rgba(85, 88, 90, 0.48);
-      z-index: 5;
+      z-index: 2;
       padding: 15px 0;
       box-sizing: border-box;
       .menu {

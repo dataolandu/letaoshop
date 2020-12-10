@@ -3,6 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
+import VueCookie from 'vue-cookie'
+import VueLazyLoad from 'vue-lazyload'
+
 
 //mock的开关，当需要mock数据时开启
 const mock = false;
@@ -10,23 +13,31 @@ const mock = false;
 if(mock){
   require('./mock/api');
 }
-
-Vue.prototype.$http = axios;
-
-//easy mock的基础地址
+//easy mock的基础地址:
 // axios.defaults.baseURL = 'https://www.easy-mock.com/mock/5fab8d92c2c980774c4b251d/letao';
-
-//mockjs的基础地址
+//mockjs的基础地址:
 // axios.defaults.baseURL = 'http://localhost:3000';
-axios.defaults.baseURL = '/api';
-axios.defaults.timeout = 8000;
-axios.interceptors.response.use(function(response){
+
+
+//将axios挂载到vue原型上
+Vue.prototype.$http = axios;
+axios.defaults.baseURL = '/api'; //基础地址
+axios.defaults.timeout = 8000;  //超时时间
+axios.interceptors.response.use(function(response){ //响应拦截器
   let res = response.data;
-  return res.data;
+  if(res.status == 0){
+    return res.data;
+  }else if(res.status == 10){
+    if(location.hash != '#/index'){
+      window.location.href = '/#/login';
+    }
+  }
 })
 
-
-
+Vue.use(VueCookie)
+Vue.use(VueLazyLoad,{
+  loading: '/imgs/loading-svg/loading-bars.svg'
+})
 
 //生产环境提示，默认为false
 Vue.config.productionTip = false;

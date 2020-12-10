@@ -9,10 +9,11 @@
           <a href="javascript:;">协议规则</a>
         </div>
         <div class="con-right">
-          <a href="javascript:;">登录</a>
+          <a href="javascript:;" v-if="username">{{ username }}</a>
+          <a href="/#/login" v-else>登录</a>
           <a href="javascript:;">注册</a>
           <a href="javascript:;" class="cartbox"
-            ><span class="icon-cart"></span> 购物车</a
+            ><span class="icon-cart"></span> 购物车({{ cartCount }})</a
           >
         </div>
       </div>
@@ -136,12 +137,26 @@
 </template>
 
 <script>
+// import { mapState } from 'vuex';
 export default {
   name: "nav-header",
   data(){
     return {
+      //我在app组件里发请求，请求需要时间，那么vue优先加载app组件，再加载头部组件，而加载头部组件时直接获取vuex里面的username不需要时间，这时间差会导致username显示不出来，所以要通过计算属性来重新渲染
+      // username: this.$store.state.username,
       phoneList:[]
     }
+  },
+  computed:{
+    username(){
+      return this.$store.state.username;
+    },
+    cartCount(){
+      return this.$store.state.cartCount;
+    }
+
+    //这里利用vuex里面的...mapstate也可以进行渲染，到达上面的效果
+    // ...mapState(['username','cartCount'])
   },
   mounted(){
     this.getphoneList();
@@ -155,9 +170,6 @@ export default {
         }
       }).then((res) => {
         this.phoneList = res.list;
-        // console.log(this.phoneList);
-        // console.log(res.list);
-        // console.log(res);
       })
     }
   }

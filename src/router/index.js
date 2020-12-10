@@ -10,6 +10,7 @@ import OrderConfirm from '../views/order/orderConfirm.vue'
 import OrderList from '../views/order/orderList.vue'
 import OrderPay from '../views/order/orderPay.vue'
 import AliPay from '../views/alipay/alipay.vue'
+import Login from '../views/login/login.vue'
 
 Vue.use(VueRouter)
 
@@ -71,6 +72,12 @@ const routes = [
         component: AliPay,
       },
     ]
+  },
+  //登录页
+  {
+    path: '/login',
+    name: 'login',
+    component: Login,
   },
 
 ]
