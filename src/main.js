@@ -25,13 +25,13 @@ axios.defaults.baseURL = '/api'; //基础地址
 axios.defaults.timeout = 8000;  //超时时间
 axios.interceptors.response.use(function(response){ //响应拦截器
   let res = response.data;
-  if(res.status == 0){
+  // if(res.status == 0){
     return res.data;
-  }else if(res.status == 10){
-    if(location.hash != '#/index'){
-      window.location.href = '/#/login';
-    }
-  }
+  // }else if(res.status == 10){
+  //   if(location.hash != '#/index'){
+  //     window.location.href = '/#/login';
+  //   }
+  // }
 })
 
 Vue.use(VueCookie)

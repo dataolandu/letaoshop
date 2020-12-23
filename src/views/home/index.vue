@@ -50,15 +50,14 @@
           <!-- 轮播组件 -->
           <swiper :options="swiperOptions">
             <swiper-slide v-for="(item, index) in swiperList" :key="index">
-              <a :href="'/#/product/' + item.id" target="_blank"
-                ><img :src="item.img"
-              /></a>
+              <a :href="'/#/product/' + item.id" target="_blank"><img :src="item.img"/></a>
             </swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
             <div class="swiper-pagination" slot="pagination"></div>
             <div class="swiper-button-prev" slot="button-prev"></div>
             <div class="swiper-button-next" slot="button-next"></div>
           </swiper>
+          <!-- -- -->
         </div>
         <div class="advert-box">
           <ul>
@@ -247,6 +246,7 @@ export default {
         });
     },
     gotoCart(){
+      //添加购物车功能未完成————————————————————————————————————————————————————————————————————————
       this.$router.push('/cart');
     }
   },

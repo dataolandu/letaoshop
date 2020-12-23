@@ -9,12 +9,17 @@
           <a href="javascript:;">协议规则</a>
         </div>
         <div class="con-right">
-          <a href="javascript:;" v-if="username">{{ username }}</a>
-          <a href="/#/login" v-else>登录</a>
+          <div class="loging" v-if="username">
+            <a href="javascript:;">{{ username }} </a>
+            <span class="exit" @click="exit">退出登录</span>
+          </div>
+          <div class="nologin" v-else>
+            <a href="/#/login" >登录</a>
           <a href="javascript:;">注册</a>
-          <a href="javascript:;" class="cartbox"
-            ><span class="icon-cart"></span> 购物车({{ cartCount }})</a
-          >
+          </div>
+          <a href="javascript:;" class="cartbox">
+            <span class="icon-cart"></span>购物车 <span v-if="cartCount >= 0">({{ cartCount }})</span>
+          </a>
         </div>
       </div>
     </div>
@@ -140,6 +145,7 @@
 // import { mapState } from 'vuex';
 export default {
   name: "nav-header",
+  inject: ['reload'],
   data(){
     return {
       //我在app组件里发请求，请求需要时间，那么vue优先加载app组件，再加载头部组件，而加载头部组件时直接获取vuex里面的username不需要时间，这时间差会导致username显示不出来，所以要通过计算属性来重新渲染
@@ -160,6 +166,7 @@ export default {
   },
   mounted(){
     this.getphoneList();
+    this
   },
   methods:{
     getphoneList(){
@@ -171,6 +178,18 @@ export default {
       }).then((res) => {
         this.phoneList = res.list;
       })
+    },
+    exit(){
+      // this.$cookie.delete('userId');
+      // console.log(1);
+      this.$http.post('/user/logout').then(() => {
+        alert('退出成功！')
+        this.$store.state.username = '';
+        this.$store.state.cartCount = -1;
+      })
+    },
+    refresh(){
+      this.reload();
     }
   }
 };
@@ -190,12 +209,26 @@ export default {
       a {
         color: #b0b0b0;
         line-height: 39px;
-        margin-right: 10px;
+        margin: 0 5px;
       }
       .con-right {
-        width: 200px;
+        // width: 200px;
         height: 39px;
         @include flex();
+        .loging{
+          padding-right: 5px;
+        }
+        .nologin{
+          padding-right: 5px;
+        }
+        .exit{
+          padding: 0 5px;
+          color: #b0b0b0;
+          cursor: pointer;
+        }
+        .nologin{
+          display: inline-block;
+        }
         .cartbox {
           display: inline-block;
           width: 110px;

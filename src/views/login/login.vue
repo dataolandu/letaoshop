@@ -46,12 +46,13 @@ export default {
                 password: this.password
             }).then(res => {
                 console.log(res);
-                this.$cookie.set('userId',res.id,{ expires: 7 });
-                //这里还没把登录的用户信息保存到vuex里，先留着，待做-----------------------------------
-                this.$store.dispatch('saveUsername', res.username);
-                this.$router.push({
-                    name: 'index',
-                });
+                // this.$cookie.set('userId',res.id,{ expires: 7 });
+                // this.$store.dispatch('saveUsername', res.username);
+                // //这里有个bug，没把登录的用户信息的购物车数量保存到vuex，要多发一次购物车请求代码，还没有更好的idea所以先留着-----------------------------------
+                // // this.$store.dispatch('saveCartcount', res.username);
+                // this.$router.push({
+                //     name: 'index',
+                // });
             })
         }
     }
