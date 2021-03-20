@@ -13,10 +13,10 @@
           </div>
           <div class="form-input">
             <div class="account">
-              <input type="text" placeholder="账号/邮箱" v-model="username"/>
+              <input v-model="username" type="text" placeholder="账号/邮箱" />
             </div>
             <div class="password">
-              <input type="password" placeholder="密码" v-model="password"/>
+              <input v-model="password" type="password" placeholder="密码" @keyup.enter="login" />
             </div>
           </div>
           <div class="form-submit" @click="login">登录</div>
@@ -32,30 +32,30 @@
 
 <script>
 export default {
-    data(){
-        return {
-            username: '',
-            password: '',
-            userId: '',
-        }
-    },
-    methods:{
-        login(){
-            this.$http.post('/user/login',{
-                username: this.username,
-                password: this.password
-            }).then(res => {
-                console.log(res);
-                // this.$cookie.set('userId',res.id,{ expires: 7 });
-                // this.$store.dispatch('saveUsername', res.username);
-                // //这里有个bug，没把登录的用户信息的购物车数量保存到vuex，要多发一次购物车请求代码，还没有更好的idea所以先留着-----------------------------------
-                // // this.$store.dispatch('saveCartcount', res.username);
-                // this.$router.push({
-                //     name: 'index',
-                // });
-            })
-        }
+  data() {
+    return {
+      username: '',
+      password: '',
+      userId: '',
     }
+  },
+  methods:{
+    login() {
+      this.$http.post('/users/login', {
+        email: this.username,
+        password: this.password
+      }).then(res => {
+        console.log(res);
+        // this.$cookie.set('userId', res.id, { expires: 7 });
+        // this.$store.dispatch('saveUsername', res.username);
+        // //这里有个bug，没把登录的用户信息的购物车数量保存到vuex，要多发一次购物车请求代码，还没有更好的idea所以先留着-----------------------------------
+        // // this.$store.dispatch('saveCartcount', res.username);
+        // this.$router.push({
+        //   name: 'index',
+        // });
+      })
+    }
+  }
 };
 </script>
 

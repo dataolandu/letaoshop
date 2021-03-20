@@ -50,12 +50,12 @@
           <!-- 轮播组件 -->
           <swiper :options="swiperOptions">
             <swiper-slide v-for="(item, index) in swiperList" :key="index">
-              <a :href="'/#/product/' + item.id" target="_blank"><img :src="item.img"/></a>
+              <a :href="'/#/product/' + item.id" target="_blank"><img :src="item.img" /></a>
             </swiper-slide>
-            <div class="swiper-pagination" slot="pagination"></div>
-            <div class="swiper-pagination" slot="pagination"></div>
-            <div class="swiper-button-prev" slot="button-prev"></div>
-            <div class="swiper-button-next" slot="button-next"></div>
+            <div slot="pagination" class="swiper-pagination"></div>
+            <div slot="pagination" class="swiper-pagination"></div>
+            <div slot="button-prev" class="swiper-button-prev"></div>
+            <div slot="button-next" class="swiper-button-next"></div>
           </swiper>
           <!-- -- -->
         </div>
@@ -103,12 +103,12 @@
         </div>
       </div>
     </div>
-    <modal 
-    class="summit-cart" 
-    title="提示" 
-    btnType="1" 
-    sendText="去购物车看看" 
-    :showModal="showModal"
+    <modal
+    class="summit-cart"
+    title="提示"
+    btn-type="1"
+    send-text="去购物车看看"
+    :show-modal="showModal"
     @cancel="showModal = false"
     @tocart="gotoCart"
     >
@@ -126,7 +126,7 @@ import Modal from "@/components/Modal";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
 export default {
-  name: "index",
+  name: "Index",
   components: {
     swiper,
     swiperSlide,
@@ -229,23 +229,36 @@ export default {
     };
   },
   mounted() {
-    this.getBrickdata();
+    // this.getBrickdata();
+    this.getProductList();
   },
   methods: {
-    getBrickdata() {
-      this.$http
-        .get("/products", {
-          params: {
-            categoryId: 100012,
-            pageNum: 1,
-            pageSize: 8,
-          },
-        })
-        .then((res) => {
-          this.brickList = res.list;
-        });
+    // getBrickdata() {
+    //   this.$http
+    //     .get("/products", {
+    //       params: {
+    //         categoryId: 100012,
+    //         pageNum: 1,
+    //         pageSize: 8,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       console.log(res);
+    //       this.brickList = res.list;
+    //     });
+    // },
+    async getProductList() {
+      let res = await this.$http.getProductList({
+        pageNum: 1,
+        pageSize: 10,
+      })
+      console.log(res);
+      if(res.code == 0) {
+        this.brickList = res.data;
+      }
+
     },
-    gotoCart(){
+    gotoCart() {
       //添加购物车功能未完成————————————————————————————————————————————————————————————————————————
       this.$router.push('/cart');
     }

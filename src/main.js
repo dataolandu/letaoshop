@@ -2,15 +2,18 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import axios from 'axios'
+import * as request from './util/all_request'
 import VueCookie from 'vue-cookie'
 import VueLazyLoad from 'vue-lazyload'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import '@/icons' // icon
 
 
 //mock的开关，当需要mock数据时开启
 const mock = false;
 //这里要用require来导入而不能用import，因为import是预编译导入，用了它之后mock就会一直拦截你的请求然后返回
-if(mock){
+if(mock) {
   require('./mock/api');
 }
 //easy mock的基础地址:
@@ -20,22 +23,11 @@ if(mock){
 
 
 //将axios挂载到vue原型上
-Vue.prototype.$http = axios;
-axios.defaults.baseURL = '/api'; //基础地址
-axios.defaults.timeout = 8000;  //超时时间
-axios.interceptors.response.use(function(response){ //响应拦截器
-  let res = response.data;
-  // if(res.status == 0){
-    return res.data;
-  // }else if(res.status == 10){
-  //   if(location.hash != '#/index'){
-  //     window.location.href = '/#/login';
-  //   }
-  // }
-})
+Vue.prototype.$http = request;
 
+Vue.use(ElementUI);
 Vue.use(VueCookie)
-Vue.use(VueLazyLoad,{
+Vue.use(VueLazyLoad, {
   loading: '/imgs/loading-svg/loading-bars.svg'
 })
 
@@ -47,5 +39,6 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
+  el: '#app',
   render: h => h(App)
 }).$mount('#app')

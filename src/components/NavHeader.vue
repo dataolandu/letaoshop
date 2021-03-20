@@ -9,12 +9,12 @@
           <a href="javascript:;">协议规则</a>
         </div>
         <div class="con-right">
-          <div class="loging" v-if="username">
+          <div v-if="username" class="loging">
             <a href="javascript:;">{{ username }} </a>
             <span class="exit" @click="exit">退出登录</span>
           </div>
-          <div class="nologin" v-else>
-            <a href="/#/login" >登录</a>
+          <div v-else class="nologin">
+            <a href="/#/login">登录</a>
           <a href="javascript:;">注册</a>
           </div>
           <a href="javascript:;" class="cartbox">
@@ -41,8 +41,8 @@
                         :alt="item.subtitle"
                       />
                     </div>
-                    <div class="pro-name">{{item.name}}</div>
-                    <div class="pro-price">{{item.price}}元</div>
+                    <div class="pro-name">{{ item.name }}</div>
+                    <div class="pro-price">{{ item.price }}元</div>
                   </a>
                 </li>
               </ul>
@@ -144,9 +144,9 @@
 <script>
 // import { mapState } from 'vuex';
 export default {
-  name: "nav-header",
+  name: "NavHeader",
   inject: ['reload'],
-  data(){
+  data() {
     return {
       //我在app组件里发请求，请求需要时间，那么vue优先加载app组件，再加载头部组件，而加载头部组件时直接获取vuex里面的username不需要时间，这时间差会导致username显示不出来，所以要通过计算属性来重新渲染
       // username: this.$store.state.username,
@@ -154,32 +154,30 @@ export default {
     }
   },
   computed:{
-    username(){
+    username() {
       return this.$store.state.username;
     },
-    cartCount(){
+    cartCount() {
       return this.$store.state.cartCount;
     }
 
     //这里利用vuex里面的...mapstate也可以进行渲染，到达上面的效果
     // ...mapState(['username','cartCount'])
   },
-  mounted(){
-    this.getphoneList();
-    this
+  mounted() {
+    // this.getphoneList();
   },
   methods:{
-    getphoneList(){
-      this.$http.get('/products',{
-        params:{
-          categoryId: '100012',
-          pageSize: 6
-        }
-      }).then((res) => {
-        this.phoneList = res.list;
+    async getphoneList() {
+      let res = await this.$http.getProductList({
+        pageNum: 1,
+        pageSize: 10,
       })
+      if(res.code == 0) {
+        this.phoneList = res.data;
+      }
     },
-    exit(){
+    exit() {
       // this.$cookie.delete('userId');
       // console.log(1);
       this.$http.post('/user/logout').then(() => {
@@ -188,7 +186,7 @@ export default {
         this.$store.state.cartCount = -1;
       })
     },
-    refresh(){
+    refresh() {
       this.reload();
     }
   }

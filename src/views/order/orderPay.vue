@@ -6,7 +6,7 @@
 
 <script>
 export default {
- name: 'orderpay',
+  name: 'Orderpay',
 }
 </script>
 

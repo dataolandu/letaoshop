@@ -31,7 +31,7 @@
           ><img src="/imgs/product/gallery-6.jpg" alt=""
         /></swiper-slide>
         <!-- Optional controls -->
-        <div class="swiper-pagination" slot="pagination"></div>
+        <div slot="pagination" class="swiper-pagination"></div>
       </swiper>
       <p>小米8 AI智能双摄</p>
     </div>
@@ -46,7 +46,7 @@
     </div>
     <div class="empty"></div>
     <transition name="slide">
-    <div class="videomodal" v-if="videomodal">
+    <div v-if="videomodal" class="videomodal">
       <div class="occlusion"></div>
       <div class="video-box">
         <!-- 这里的动画还有问题 -->
@@ -62,7 +62,7 @@
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
 export default {
-  name: "product",
+  name: "Product",
   components: {
     swiper,
     swiperSlide,
@@ -83,11 +83,11 @@ export default {
       },
     };
   },
-  mounted(){
-    this.getProductMsg();
+  mounted() {
+    // this.getProductMsg();
   },
   methods:{
-    getProductMsg(){
+    getProductMsg() {
       // console.log(this.$route.params.id);
       let id = this.$route.params.id;
       this.$http.get(`/products/${id}`).then( res => {
@@ -196,7 +196,7 @@ export default {
       z-index: 2;
     }
     .video-box {
-      
+
     transition: all 1s;
         z-index: 6;
         @include position(fixed, 50%, 50%, 900px, auto);
@@ -225,9 +225,10 @@ export default {
     }
     &.slide-leave-to{
         top: 0;
+
     }
     }
-    
+
   }
 }
 </style>

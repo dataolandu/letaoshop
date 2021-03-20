@@ -10,10 +10,10 @@
 import OrderHeader from '../../components/OrderHeader'
 import NavFooter from '../../components/NavFooter'
 export default {
- name: 'order',
- components: {
-   OrderHeader,NavFooter
- }
+  name: 'Order',
+  components: {
+    OrderHeader, NavFooter
+  }
 }
 </script>
 

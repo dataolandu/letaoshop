@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import AdminHome from '@/router/adminHome/index'
 import Home from '../views/home/home.vue'
 import Detail from '../views/home/detail.vue'
 import Index from '../views/home/index.vue'
@@ -79,6 +80,9 @@ const routes = [
     name: 'login',
     component: Login,
   },
+  //后台管理
+
+  ...AdminHome
 
 ]
 
